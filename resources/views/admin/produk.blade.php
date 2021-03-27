@@ -1,10 +1,13 @@
 <x-template-layout>
     <div>
+    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+      {{$title}}
+    </h2>
         <div class="">
         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
         <div class="grid grid-cols-12">
           <div class="col-span-6 p-4">
-            <a href="">  <button type="button" class="focus:outline-none text-purple-600 text-sm py-2.5 px-5 rounded-md hover:bg-purple-100">Tambah</button></a>
+            <a href="{{route('produk.create')}}">  <button type="button" class="focus:outline-none text-purple-600 text-sm py-2.5 px-5 rounded-md hover:bg-purple-100">Tambah</button></a>
           <a href=""><button type="button" class="focus:outline-none text-yellow-600 text-sm py-2.5 px-5 rounded-md hover:bg-yellow-100">Hapus</button></a>
           </div>
           <div class="col-span-6 p-4 flex justify-end">
@@ -21,39 +24,46 @@
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" class="px-6 py-3 text-left text-sm font-semibold text-gray-500 uppercase tracking-wider">
                 Checklist
               </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" class="px-6 py-3 text-left text-sm font-semibold text-gray-500 uppercase tracking-wider">
                 No
               </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" class="px-6 py-3 text-left text-sm font-semibold text-gray-500 uppercase tracking-wider">
                 Nama Produk
               </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" class="px-6 py-3 text-left text-sm font-semibold text-gray-500 uppercase tracking-wider">
                 Desc
               </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" class="px-6 py-3 text-left text-sm font-semibold text-gray-500 uppercase tracking-wider">
                 Cover
               </th>
-              <th scope="col" class="relative px-6 py-3">
-                <span class="sr-only">Edit</span>
+              <th scope="col" class="px-6 py-3 text-left text-sm font-semibold text-gray-500 uppercase tracking-wider">
+                Aksi
               </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            @foreach ($produk as $item)
             <?php $no=1; ?>
+            @foreach ($produk as $item)
             <tr>
-              <td><input type="checkbox" name="" id=""></td>
-              <td>{{$no}}</td>
-              <td>{{$item->title}}</td>
-              <td>{{$item->description}}</td>
-              <td></td>
-              <td></td>
+              <td class="px-6 py-3"><input type="checkbox" name="" id=""></td>
+              <td class="px-6 py-3">{{$no}}</td>
+              <td class="px-6 py-3">{{$item->title}}</td>
+              <td class="px-6 py-3">{{$item->description}}</td>
+              <td class="px-6 py-3"><img src="{{asset('storage/'.$item->cover)}}" class="w-16" alt=""></td>
+              <td class="px-6 py-3">
+                <form action="{{route('produk.destroy',$item->id)}}" method="POST">
+                  @csrf
+                  @method('DELETE')
+                  <a href="{{route('produk.edit',$item->id)}}" class="ml-2 whitespace-nowrap no-underline hover:underline text-black rounded-md shadow-sm text-md bg-blue-500">Edit</a>
+                  <button type="submit" class="ml-2 whitespace-nowrap no-underline hover:underline text-black rounded-md shadow-sm text-md bg-red-500">Del</button>
+                </form>
+              </td>
             </tr>
-            <?php $no++; ?>
             @endforeach
+            <?php $no++; ?>
           </tbody>
         </table>
       </div>

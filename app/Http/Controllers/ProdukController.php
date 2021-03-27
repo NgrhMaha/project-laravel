@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
@@ -16,7 +18,7 @@ class ProdukController extends Controller
     {
       $produk=Produk::all();
       $title="Daftar Produk";
-      return view('admin.produk',compact('produk'));
+      return view('admin.produk',compact('title','produk'));
     }
 
     /**
@@ -26,7 +28,8 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        //
+        $title="Tambah Produk";
+        return view('admin.input',compact('title'));
     }
 
     /**
@@ -37,7 +40,21 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $message=[
+            'required'=>'Kolom :atribut harus lengkap',
+            'date'    =>'Kolom :artibut harus tangga;',
+            'numeric' =>'Kolom :atribut harus angka',
+        ];
+        $validasi=$request->validate([
+                'title'=>'required|unique:produks|max:255',
+                'description'=>'required',
+                'cover'=>'required|mimes:jpg,bmp,png|max:512'
+        ],$message);
+        $path = $request->file('cover')->store('covers');
+        $validasi['user_id']=Auth::id();
+        $validasi['cover']=$path;
+        Produk::create($validasi);
+        return redirect('produk');
     }
 
     /**
@@ -59,7 +76,9 @@ class ProdukController extends Controller
      */
     public function edit($id)
     {
-        //
+      $produk=Produk::find($id);
+      $title="Edit Produk";
+      return view('admin.input',compact('title','produk'));
     }
 
     /**
@@ -71,7 +90,26 @@ class ProdukController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $message=[
+            'required'=>'Kolom :atribut harus lengkap',
+            'date'    =>'Kolom :artibut harus tangga;',
+            'numeric' =>'Kolom :atribut harus angka',
+        ];
+        $validasi=$request->validate([
+                'title'=>'required|unique:produks|max:255',
+                'description'=>'required',
+        ],$message);
+        if($request->hasFile('cover')){
+            $fileName=time().$request->file('cover')->getClientOriginalName();
+            $path = $request->file('cover')->storeAs('covers',$fileName);
+            $validasi['cover']=$path;
+        }
+        $validasi['user_id']=Auth::id();
+        $produk=Produk::find($id);
+        Storage::delete($produk->cover);
+       
+        Produk::where('id',$id)->update($validasi);
+        return redirect('produk');
     }
 
     /**
@@ -82,6 +120,13 @@ class ProdukController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $produk=Produk::find($id);
+        if($produk != null){
+            Storage::delete($produk->cover);
+            $produk=Produk::find($produk->id);
+            Produk::where('id',$id)->delete();
+        }
+
+        return redirect('produk')->with('success','Data Berhasil Terhapus');
     }
 }
