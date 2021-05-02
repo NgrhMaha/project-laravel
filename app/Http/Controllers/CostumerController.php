@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Produk;
+use App\Models\Costumer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class ProdukController extends Controller
+class CostumerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class ProdukController extends Controller
      */
     public function index()
     {
-      $produk=Produk::all();
-      $title="Daftar Produk";
-      return view('admin.produk',compact('title','produk'));
+        $costumer=Costumer::all();
+        $judul="Costumer";
+        return view('admin.costumer',compact('judul','costumer'));
     }
 
     /**
@@ -28,8 +28,8 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        $title="Tambah Produk";
-        return view('admin.input',compact('title'));
+        $judul="Tambah Costumer";
+        return view('admin.inputcos',compact('judul'));
     }
 
     /**
@@ -42,19 +42,18 @@ class ProdukController extends Controller
     {
         $message=[
             'required'=>'Kolom :atribut harus lengkap',
-            'date'    =>'Kolom :artibut harus tangga;',
-            'numeric' =>'Kolom :atribut harus angka',
+            'date'    =>'Kolom :artibut harus tanggal',
+            'numeric' =>'Kolom :atribut harus angka'
         ];
         $validasi=$request->validate([
-                'title'=>'required|max:255',
-                'description'=>'required',
-                'cover'=>'required|mimes:jpg,bmp,png|max:512'
+                'nama'=>'required|max:255',
+                'alamat'=>'required',
+                'nohp'=>'required'
         ],$message);
-        $path = $request->file('cover')->store('covers');
+      ;
         $validasi['user_id']=Auth::id();
-        $validasi['cover']=$path;
-        Produk::create($validasi);
-        return redirect('produk');
+        Costumer::create($validasi);
+        return redirect('costumer');
     }
 
     /**
@@ -76,9 +75,9 @@ class ProdukController extends Controller
      */
     public function edit($id)
     {
-      $produk=Produk::find($id);
-      $title="Edit Produk";
-      return view('admin.input',compact('title','produk'));
+        $costumer=Costumer::find($id);
+        $judul="Edit Costumer";
+        return view('admin.inputcos',compact('judul','costumer'));
     }
 
     /**
@@ -92,24 +91,20 @@ class ProdukController extends Controller
     {
         $message=[
             'required'=>'Kolom :atribut harus lengkap',
-            'date'    =>'Kolom :artibut harus tangga;',
+            'date'    =>'Kolom :artibut harus tanggal',
             'numeric' =>'Kolom :atribut harus angka',
         ];
         $validasi=$request->validate([
-                'title'=>'max:255',
-                'description'=>'',
+                'nama'=>'max:255',
+                'alamat'=>'',
+                'nohp'=>''
         ],$message);
-        if($request->hasFile('cover')){
-            $fileName=time().$request->file('cover')->getClientOriginalName();
-            $path = $request->file('cover')->storeAs('covers',$fileName);
-            $validasi['cover']=$path;
-        }
+   
         $validasi['user_id']=Auth::id();
-        $produk=Produk::find($id);
-        Storage::delete($produk->cover);
+        $produk=Costumer::find($id);
        
-        Produk::where('id',$id)->update($validasi);
-        return redirect('produk');
+        Costumer::where('id',$id)->update($validasi);
+        return redirect('costumer');
     }
 
     /**
@@ -120,13 +115,13 @@ class ProdukController extends Controller
      */
     public function destroy($id)
     {
-        $produk=Produk::find($id);
-        if($produk != null){
-            Storage::delete($produk->cover);
-            $produk=Produk::find($produk->id);
-            Produk::where('id',$id)->delete();
+        $costumer=Costumer::find($id);
+        if($costumer != null){
+            $costumer=Costumer::find($costumer->id);
+            Costumer::where('id',$id)->delete();
         }
 
-        return redirect('produk')->with('success','Data Berhasil Terhapus');
+        return redirect('costumer')->with('success','Data Berhasil Terhapus');
     }
+    
 }

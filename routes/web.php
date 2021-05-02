@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CostumerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Livewire\Crud;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +28,4 @@ Route::get('/', function () {
 //Route::get('/home', [HomeController::class, 'index'])->middleware(['auth:sanctum','verified']);
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware(['auth:sanctum','verified']); 
 Route::resource('produk', ProdukController::class);
+Route::resource('costumer', CostumerController::class);
