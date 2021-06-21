@@ -24,17 +24,16 @@
         @foreach ($produk as $item)
           <div class="lg:w-1/4 md:w-1/2 p-4 w-full">
             <a class="block relative h-48 rounded overflow-hidden">
-              <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="https://dummyimage.com/420x260">
+              <img alt="ecommerce" class="object-cover object-center w-40 h-40" src="{{asset('storage/'.$item->cover)}}">
             </a>
             <div class="mt-4">
-              <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{$item->title}}</h3>
+              <h2 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{$item->title}}</h2>
               <h2 class="text-gray-900 title-font text-lg font-medium">{{$item->description}}</h2>
-              <p class="mt-1">$16.00</p>
               <form action="{{route('produk.destroy',$item->id)}}" method="POST">
                   @csrf
                   @method('DELETE')
-                  <a href="{{route('produk.edit',$item->id)}}" class="ml-2 whitespace-nowrap no-underline hover:underline text-black rounded-md shadow-sm text-md bg-blue-500">Edit</a>
-                  <button type="submit" class="ml-2 whitespace-nowrap no-underline hover:underline text-black rounded-md shadow-sm text-md bg-red-500">Del</button>
+                  <a href="{{route('produk.edit',$item->id)}}" class="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-2 rounded">Edit</a>
+                  <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-medium py-1.5 px-2 rounded">Del</button>
               </form>
             </div>
           </div>

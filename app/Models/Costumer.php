@@ -9,6 +9,6 @@ class Costumer extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'user_id','nama','alamat','nohp'
+        'id','user_id','nama','alamat','nohp'
     ];
 }

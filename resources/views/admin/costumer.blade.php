@@ -1,4 +1,7 @@
 <x-template-layout>
+    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate px-5">
+          {{$judul}}
+    </h2>
     <div>
         <div class="">
         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -55,7 +58,7 @@
                     @csrf
                     @method('DELETE')
                     <a href="{{route('costumer.edit',$item->id)}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</a>
-                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Del</button>
+                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1.5 px-4 rounded">Del</button>
                 </form>
               </td>
             </tr>

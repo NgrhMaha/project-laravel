@@ -29,3 +29,4 @@ Route::get('/', function () {
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware(['auth:sanctum','verified']); 
 Route::resource('produk', ProdukController::class);
 Route::resource('costumer', CostumerController::class);
+Route::get('pelanggan', Crud::class);

@@ -17,7 +17,8 @@
                   Nama Produk
                 </label>
                 <div class="mt-1 flex rounded-md shadow-sm">
-                  <input type="text" name="title" id="title" value="{{(isset($produk))?$produk->title:old('title') }}" class="@error('title') border-red-500 @enderror focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" placeholder="nama produk">
+                  <input type="text" name="title" id="title" value="{{(isset($produk))?$produk->title:old('title') }}" 
+                  class="@error('title') border-red-500 @enderror focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" placeholder="nama produk">
                 </div>
                 <div class="text-xs text-red-600">@error('title') {{$message}} @enderror</div>
               </div>
@@ -31,7 +32,7 @@
                   Deskripsi Produk
                 </label>
                 <div class="mt-1 flex rounded-md shadow-sm">
-                  <input type="text" name="description" id="description" value="{{(isset($produk))?$produk->description:old('description') }}" class="@error('title') border-red-500 @enderror focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" placeholder="nama produk">
+                  <input type="text" name="description" id="description" value="{{(isset($produk))?$produk->description:old('description') }}" class="@error('title') border-red-500 @enderror focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" placeholder="keterangan">
                 </div>
                 <div class="text-xs text-red-600">@error('description') {{$message}} @enderror</div>
               </div>
